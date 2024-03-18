@@ -51,22 +51,25 @@ const Home = () => {
 	}
 
 	return (
-		<Flex direction={"column"} minH={"100vh"} justifyContent={"center"} alignItems={"center"}>
-			<Heading>How many matches will you play?</Heading>
-			<Heading>Total Teams : { teams }</Heading>
-			<Heading>Total Groups : { groups }</Heading>
-			<Heading>Games per team : { minGames }</Heading>
-			<Flex my={5} alignItems={"center"}>
-				<Text mx={5}>Number of teams: </Text>
-				<Input width={"250px"} value={teams} onChange={(event: ChangeEvent<HTMLInputElement>) => setTeams(Number(event.target.value))}/>
+		<Flex direction={"column"} minH={"100vh"} alignItems={"center"} p={16}>
+			<Flex width={"80%"} justifyContent={"space-evenly"}>
+				<Heading>Total Teams : { teams }</Heading>
+				<Heading>Total Groups : { groups }</Heading>
+				<Heading>Games per team : { minGames }</Heading>
 			</Flex>
-			<Flex my={5} alignItems={"center"}>
-				<Text mx={5}>Number of groups: </Text>
-				<Input width={"250px"} value={groups} onChange={(event: ChangeEvent<HTMLInputElement>) => setGroups(Number(event.target.value))}/>
-			</Flex>
-			<Flex my={5} alignItems={"center"}>
-				<Text mx={5}>Games per team: </Text>
-				<Input width={"250px"} value={minGames} onChange={(event: ChangeEvent<HTMLInputElement>) => setMinGames(Number(event.target.value))}/>
+			<Flex width={"80%"} my={16} justifyContent={"space-evenly"}>
+				<Flex alignItems={"center"} direction={"column"}>
+					<Text mx={5}>Number of teams: </Text>
+					<Input width={"250px"} value={teams} onChange={(event: ChangeEvent<HTMLInputElement>) => setTeams(Number(event.target.value))}/>
+				</Flex>
+				<Flex alignItems={"center"} direction={"column"}>
+					<Text mx={5}>Number of groups: </Text>
+					<Input width={"250px"} value={groups} onChange={(event: ChangeEvent<HTMLInputElement>) => setGroups(Number(event.target.value))}/>
+				</Flex>
+				<Flex alignItems={"center"} direction={"column"}>
+					<Text mx={5}>Games per team: </Text>
+					<Input width={"250px"} value={minGames} onChange={(event: ChangeEvent<HTMLInputElement>) => setMinGames(Number(event.target.value))}/>
+				</Flex>
 			</Flex>
 			<Flex>
 				<Button onClick={knockout}>
