@@ -22,7 +22,7 @@ export const Form = (props: PropType) => {
     const { updateInput, formValues } = props;
 
     return (
-        <Flex id="form" direction={"column"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} fontSize={{ base: "12px", sm: "15px"}}
+        formValues && <Flex id="form" direction={"column"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} fontSize={{ base: "12px", sm: "15px"}}
             gap={"15px"} shadow={"sm"} justifyContent={"center"} alignItems={"center"} position={"relative"}>
             <Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
                 <Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>INFO</Heading>
