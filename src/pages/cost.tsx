@@ -14,9 +14,8 @@ type PropType = {
     misc: number,
 }
 
-const Method = (props: PropType) => {
+const Cost = (props: PropType) => {
     const { name, teams, studentTeams, fees, studentFees, groups, minGames, ballCost, trophyCost, misc } = props;
-	const [minMatches, setMinMatches] = useState <number> (0);
 	const [totalGames, setTotalGames] = useState <number> (0);
 
     useEffect(() => {
@@ -43,7 +42,6 @@ const Method = (props: PropType) => {
 			matches += Math.floor(participatingTeams / 2);
 			participatingTeams /= 2;
 		}
-        setMinMatches(Math.min(1, participatingTeams));
 		setTotalGames(matches);
 	}
 
@@ -56,7 +54,6 @@ const Method = (props: PropType) => {
 		const extraGames: number = extraTeams * teamsPerGroup;
 		const totalGroupStage: number = groupStageGames + extraGames;
 		const semiFinal: number = 2, final: number = 1;
-        setMinMatches(teamsPerGroup - 1);
 		setTotalGames(totalGroupStage + semiFinal + final);
 	}
 
@@ -74,24 +71,14 @@ const Method = (props: PropType) => {
 			matches += Math.floor((teamsPerGroup * minGames) / 2);
 		}
 		const semiFinal: number = 2, final: number = 1;
-        setMinMatches(minGames);
 		setTotalGames(matches + semiFinal + final);
 	}
 
     return (
         <Flex direction={"column"}
         gap={"30px"} color={name ? minGames !== 0 && name.toLowerCase() === "knockout" ? "lightgray" : "black" : "black"}>
-            <Heading whiteSpace={"nowrap"} textAlign={"center"} size={{base: "xxs", md: "md"}}>{ name ? minGames !== 0 && name.toLowerCase() === "round robin" ? "ALTERED RR" : name : "UNKNOWN" }</Heading>
+            <Heading whiteSpace={"nowrap"} textAlign={"center"} size={{base: "xxs", md: "sm"}}>{ name ? minGames !== 0 && name.toLowerCase() === "round robin" ? "ALTERED RR" : name : "UNKNOWN" }</Heading>
             <Flex direction={"column"} gap={"20px"} alignItems={"center"}>
-                <Text>{ teams + studentTeams }</Text>
-                <Text>{ groups }</Text>
-                <Text>{ minMatches }</Text>
-                <Text>{ name ? name.toLowerCase() === "knockout" ? 0 : totalGames - 3 : 0 }</Text>
-                <Text>{ totalGames }</Text>
-                <Text>{ totalGames * 1.5 || 0 } hrs</Text>
-                <Text>{ totalGames * 2 }</Text>
-                <Text>{ Math.min(totalGames, 10) }</Text>
-                <Text>${ ballCost }</Text>
                 <Text>${ ballCost * (totalGames * 2 + Math.min(totalGames, 10)) }</Text>
                 <Text>${ trophyCost }</Text>
                 <Text>${ misc }</Text>
@@ -103,4 +90,4 @@ const Method = (props: PropType) => {
     )
 }
 
-export default Method;
+export default Cost;

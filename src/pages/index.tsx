@@ -1,7 +1,10 @@
-import { Button, Divider, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Button, Box, Flex, Heading, Icon, Input, Text } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { ChangeEvent, useState } from "react";
-import Method from "./method";
+import Method from "./games";
+import Cost from "./cost";
+import { FaFacebookF } from "react-icons/fa6";
+import Form from "./form";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,67 +33,26 @@ const Home = () => {
     }
 
 	return (
-		<Flex p={{ base: 8, xl: 12}} gap={"40px"} wrap={"wrap"}
-			justifyContent={"center"} alignItems={"center"} fontSize={{ base: "10px", sm: "15px"}}>
-			<Flex id="form" direction={"column"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}}
-				gap={"15px"} shadow={"sm"} justifyContent={"center"} alignItems={"center"}>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Normal Teams</Text>
-					<Input type="number" width={"120px"} name="teams" value={formValues.teams} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Normal Fee</Text>
-					<Input type="number" width={"120px"} name="fee" value={formValues.fee} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Student Teams</Text>
-					<Input type="number" width={"120px"} name="studentTeams" value={formValues.studentTeams} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Student Fee</Text>
-					<Input type="number" width={"120px"} name="studentFee" value={formValues.studentFee} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Groups</Text>
-					<Input type="number" width={"120px"} name="groups" value={formValues.groups} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>1 Ball Cost</Text>
-					<Input type="number" width={"120px"} name="ballCost" value={formValues.ballCost} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Trophies Cost</Text>
-					<Input type="number" width={"120px"} name="trophyCost" value={formValues.trophyCost} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Other Expenses</Text>
-					<Input type="number" width={"120px"} name="otherExpenses" value={formValues.otherExpenses} onChange={updateInput}/>
-				</Flex>
-				<Flex alignItems={"center"}>
-					<Text minWidth={"120px"} mx={5}>Change RR Games</Text>
-					<Input type="number" width={"120px"} name="minGames" value={formValues.minGames} onChange={updateInput}/>
-				</Flex>
-			</Flex>
+		<Flex p={{ base: 8, lg: 12}} gap={"30px"} wrap={"wrap"} minHeight={"calc(100vh - 50px)"}
+			justifyContent={"center"} alignItems={"start"} fontSize={{ base: "10px", sm: "15px"}}>
+			<Form updateInput={updateInput} formValues={formValues}/>
 			<Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
-				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"}>
+				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
+				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
+					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>GAMES</Heading>
+					<Box mt={{base: 2, md: 5}} mx={2} flex="1" height="2px" bgColor="steelblue" />
+				</Flex>
 				<Flex direction={"column"} gap={"30px"}>
-					<Heading size={{base: "xxs", md: "md"}} color={"transparent"}>COLUMNS</Heading>
+					<Heading size={{base: "xxs", md: "sm"}} color={"transparent"}>COLUMNS</Heading>
 					<Flex whiteSpace={"nowrap"} direction={"column"} gap={"20px"}>
-						<Text>TEAMS</Text>
-						<Text>GROUPS</Text>
-						<Text>MATCH / TEAM</Text>
-						<Text>GROUP STAGE MATCHES</Text>
-						<Text>TOTAL MATCHES</Text>
-						<Text>TOTAL TIME</Text>
-						<Text>BALLS REQUIRED</Text>
-						<Text>EXTRA BALLS</Text>
-						<Text>PRICE PER BALL</Text>
-						<Text>TOTAL COST OF BALLS</Text>
-						<Text>COST FOR TROPHIES</Text>
-						<Text>OTHER EXPENSES</Text>
-						<Text>TOTAL SPENT</Text>
-						<Text>TOTAL COLLECTION</Text>
-						<Text>AMOUNT SAVED</Text>
+						<Text>Teams</Text>
+						<Text>Groups</Text>
+						<Text>Match / Team</Text>
+						<Text>Group Stage</Text>
+						<Text>Total Matches</Text>
+						<Text>Total Time</Text>
+						<Text>Balls Required</Text>
+						<Text>Extra Balls</Text>
 					</Flex>
 				</Flex>
 				<Method
@@ -117,6 +79,57 @@ const Home = () => {
 					trophyCost={formValues.trophyCost}
 					misc={formValues.otherExpenses}
 				/>
+			</Flex>
+			<Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
+				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
+				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
+					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>FINANCE</Heading>
+					<Box mt={{base: 2, md: 5}} mx={2} flex="1" height="2px" bgColor="steelblue" />
+				</Flex>
+				<Flex direction={"column"} gap={"30px"}>
+					<Heading size={{base: "xxs", md: "sm"}} color={"transparent"}>COLUMNS</Heading>
+					<Flex whiteSpace={"nowrap"} direction={"column"} gap={"20px"}>
+						<Text>Spent On Balls</Text>
+						<Text>Trophies</Text>
+						<Text>Other Expenses</Text>
+						<Text>Total Spent</Text>
+						<Text>Total Collected</Text>
+						<Text>Total Saved</Text>
+					</Flex>
+				</Flex>
+				<Cost
+					name="KNOCKOUT"
+					teams={formValues.teams}
+					studentTeams={formValues.studentTeams}
+					fees={formValues.fee}
+					studentFees={formValues.studentFee}
+					groups={formValues.groups}
+					minGames={formValues.minGames}
+					ballCost={formValues.ballCost}
+					trophyCost={formValues.trophyCost}
+					misc={formValues.otherExpenses}
+				/>
+				<Cost
+					name="ROUND ROBIN"
+					teams={formValues.teams}
+					studentTeams={formValues.studentTeams}
+					fees={formValues.fee}
+					studentFees={formValues.studentFee}
+					groups={formValues.groups}
+					minGames={formValues.minGames}
+					ballCost={formValues.ballCost}
+					trophyCost={formValues.trophyCost}
+					misc={formValues.otherExpenses}
+				/>
+			</Flex>
+			<Flex position={"absolute"} bottom={"-50px"} height={"50px"} width={"100vw"} bgColor={"steelblue"} 
+				justifyContent={"space-evenly"} alignItems={"center"} color={"ghostwhite"}>
+				<Heading cursor={"pointer"} size={{base: "xs", lg: "md"}} fontFamily={"monospace"} _hover={{ textDecoration: "underline" }}
+					onClick={() => window.open("https://www.facebook.com/BuffaloBulldozersCricketClub/", "_blank", 'noopener,noreferrer')}>
+						@2024 BUFFALO BULLDOZERS
+				</Heading>
+				{/* <Text>Developed by Mihir Bhansali</Text> */}
+				{/* <FaFacebookF size={20} cursor={"pointer"}/> */}
 			</Flex>
 		</Flex>	
 	);
