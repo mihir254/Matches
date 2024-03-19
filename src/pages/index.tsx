@@ -39,12 +39,12 @@ const Home = () => {
 			justifyContent={"center"} alignItems={"start"} fontSize={{ base: "10px", sm: "15px"}}>
 			
 			<Flex position={"absolute"} top={0} height={"50px"}>
-				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} borderBottom={"2px solid steelblue"}
+				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} border={"2px solid steelblue"}
 					onClick={() => setPage("estimate")} bgColor={page==="estimate" ? "steelblue" : "transparent"}
 					color={page==="estimate" ? "ghostwhite" : "steelblue"} width={"50vw"} justifyContent={"center"} alignItems={"center"}>
 						<Heading size={{base: "xs", lg: "md"}} fontFamily={"monospace"}>ESTIMATE</Heading>
 				</Flex>
-				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} borderBottom={"2px solid steelblue"}
+				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} border={"2px solid steelblue"}
 					onClick={() => setPage("draws")} bgColor={page==="draws" ? "steelblue" : "transparent"}
 					color={page==="draws" ? "ghostwhite" : "steelblue"} width={"50vw"} justifyContent={"center"} alignItems={"center"}>
 						<Heading size={{base: "xs", lg: "md"}} fontFamily={"monospace"}>DRAWS</Heading>

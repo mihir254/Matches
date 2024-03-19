@@ -116,18 +116,18 @@ const Draws = () => {
         <Flex direction={"column"} gap={"40px"} width={"100%"} alignItems={"center"}>
             <Flex gap={"30px"}>
                 <Input width={"200px"} name="team" value={team} onChange={(event: ChangeEvent<HTMLInputElement>) => setTeam(event.target.value)}/>
-                <Button isDisabled={team === ""} onClick={saveTeam}>Add Team</Button>
+                <Button size={{ base: "sm", md: "md"}} isDisabled={team === ""} onClick={saveTeam}>Add Team</Button>
             </Flex>
             {teams.length === 0 && <Flex gap={"7px"}>
-                <Button onClick={() => addRandomTeams(10)}>Add 10 Teams</Button>
-                <Button onClick={() => addRandomTeams(16)}>Add 16 Teams</Button>
-                <Button onClick={() => addRandomTeams(20)}>Add 20 Teams</Button>
+                <Button size={{ base: "sm", md: "md"}} onClick={() => addRandomTeams(10)}>Add 10 Teams</Button>
+                <Button size={{ base: "sm", md: "md"}} onClick={() => addRandomTeams(16)}>Add 16 Teams</Button>
+                <Button size={{ base: "sm", md: "md"}} onClick={() => addRandomTeams(20)}>Add 20 Teams</Button>
             </Flex>}
             {teams.length > 0 && <Flex gap={"7px"} maxWidth={{base:"90%", md: "50%"}} wrap={"wrap"} justifyContent={"center"}>
                 {teams.map((team, index) => (
-                    <Button key={index} onClick={() => setTeams(prev => prev.filter(t => t !== team))}>{team} <IoIosClose/></Button>
+                    <Button size={{ base: "sm", md: "md"}} key={index} onClick={() => setTeams(prev => prev.filter(t => t !== team))}>{team} <IoIosClose/></Button>
                 ))}
-                <Button colorScheme='red' onClick={() => {setTeams([]); setgroups(1); setCustom(0); setLots([])}}>Clear</Button>
+                <Button size={{ base: "sm", md: "md"}} colorScheme='red' onClick={() => {setTeams([]); setgroups(1); setCustom(0); setLots([])}}>Clear</Button>
             </Flex>}
             <Heading size={{base: "sm", lg: "lg"}}>TOTAL TEAMS : { teams.length }</Heading>
             <Flex gap={"10px"} alignItems={"center"}>
@@ -137,9 +137,9 @@ const Draws = () => {
                 <Input variant="flushed" type='number' pl={3} width={"50px"} name="custom" value={custom} onChange={(event: ChangeEvent<HTMLInputElement>) => setCustom(Number(event.target.value))}/>
             </Flex>
             <Flex gap={"20px"} wrap={"wrap"} justifyContent={"center"}>
-                <Button isDisabled={teams.length === 0} onClick={() => setLots(createKnockoutMatches())}>Create Knockout Matches</Button>
-                <Button isDisabled={teams.length === 0} onClick={() => setLots(createRoundRobinMatches())}>Create Round Robin Matches</Button>
-                <Button isDisabled={teams.length === 0} onClick={() => setLots(createCustomRoundRobinMatches())}>Create Custom Round Robin Matches</Button>
+                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createKnockoutMatches())}>Create Knockout Matches</Button>
+                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createRoundRobinMatches())}>Create Round Robin Matches</Button>
+                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createCustomRoundRobinMatches())}>Create Custom Round Robin Matches</Button>
             </Flex>
             {teams.length > 0 && lots && lots.length > 0 && <Flex gap={"7px"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"}
                 maxWidth={{base:"90%", md: "50%"}} wrap={"wrap"}>
