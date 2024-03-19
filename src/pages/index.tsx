@@ -1,69 +1,84 @@
-import { Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Button, Divider, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { ChangeEvent, useState } from "react";
 import Method from "./method";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const initialForm = {
+	fee: 0,
+	studentFee: 0,
+	teams: 0,
+	studentTeams: 0,
+	groups: 0,
+	minGames: 0,
+	ballCost: 0,
+	trophyCost: 0,
+	otherExpenses: 0,
+}
+
 const Home = () => {
-	const [fee, setFee] = useState <number> (0);
-	const [studentFee, setStudentFee] = useState <number> (0);
-	const [teams, setTeams] = useState <number> (0);
-	const [studentTeams, setStudentTeams] = useState <number> (0);
-	const [groups, setGroups] = useState <number> (0);
-	const [minGames, setMinGames] = useState <number> (0);
-	const [ballCost, setBallCost] = useState <number> (0);
-	const [trophyCost, setTrophyCost] = useState <number> (0);
-	const [otherExpenses, setOtherExpenses] = useState <number> (0);
+	const [formValues, setFormValues] = useState (initialForm);
+
+	const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
+        setFormValues((prev) => {
+            return {
+                ...prev,
+                [event.target.name]: Number(event.target.value) >= 0 ? Number(event.target.value) : 0
+            }
+        })
+    }
 
 	return (
-		<Flex p={12} justifyContent={"space-evenly"}>
-			<Flex id="form" direction={"column"} bgColor="whitesmoke" rounded={"md"} p={10}
-				gap={"15px"} shadow={"sm"} justifyContent={"center"}>
+		<Flex p={{ base: 8, xl: 12}} gap={"40px"} wrap={"wrap"}
+			justifyContent={"center"} alignItems={"center"} fontSize={{ base: "10px", sm: "15px"}}>
+			<Flex id="form" direction={"column"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}}
+				gap={"15px"} shadow={"sm"} justifyContent={"center"} alignItems={"center"}>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Normal Teams: </Text>
-					<Input type="number" width={"150px"} value={teams} onChange={(event: ChangeEvent<HTMLInputElement>) => setTeams(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Normal Teams</Text>
+					<Input type="number" width={"120px"} name="teams" value={formValues.teams} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Normal Fee: </Text>
-					<Input type="number" width={"150px"} value={fee} onChange={(event: ChangeEvent<HTMLInputElement>) => setFee(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Normal Fee</Text>
+					<Input type="number" width={"120px"} name="fee" value={formValues.fee} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Student Teams: </Text>
-					<Input type="number" width={"150px"} value={studentTeams} onChange={(event: ChangeEvent<HTMLInputElement>) => setStudentTeams(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Student Teams</Text>
+					<Input type="number" width={"120px"} name="studentTeams" value={formValues.studentTeams} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Student Fee: </Text>
-					<Input type="number" width={"150px"} value={studentFee} onChange={(event: ChangeEvent<HTMLInputElement>) => setStudentFee(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Student Fee</Text>
+					<Input type="number" width={"120px"} name="studentFee" value={formValues.studentFee} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Groups: </Text>
-					<Input type="number" width={"150px"} value={groups} onChange={(event: ChangeEvent<HTMLInputElement>) => setGroups(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Groups</Text>
+					<Input type="number" width={"120px"} name="groups" value={formValues.groups} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>1 Ball Cost: </Text>
-					<Input type="number" width={"150px"} value={ballCost} onChange={(event: ChangeEvent<HTMLInputElement>) => setBallCost(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>1 Ball Cost</Text>
+					<Input type="number" width={"120px"} name="ballCost" value={formValues.ballCost} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Trophies Cost: </Text>
-					<Input type="number" width={"150px"} value={trophyCost} onChange={(event: ChangeEvent<HTMLInputElement>) => setTrophyCost(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Trophies Cost</Text>
+					<Input type="number" width={"120px"} name="trophyCost" value={formValues.trophyCost} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Other Expenses: </Text>
-					<Input type="number" width={"150px"} value={otherExpenses} onChange={(event: ChangeEvent<HTMLInputElement>) => setOtherExpenses(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Other Expenses</Text>
+					<Input type="number" width={"120px"} name="otherExpenses" value={formValues.otherExpenses} onChange={updateInput}/>
 				</Flex>
 				<Flex alignItems={"center"}>
-					<Text width={"120px"} mx={5}>Round Robin Games: </Text>
-					<Input type="number" width={"150px"} value={minGames} onChange={(event: ChangeEvent<HTMLInputElement>) => setMinGames(Number(event.target.value))}/>
+					<Text minWidth={"120px"} mx={5}>Change RR Games</Text>
+					<Input type="number" width={"120px"} name="minGames" value={formValues.minGames} onChange={updateInput}/>
 				</Flex>
 			</Flex>
-			<Flex gap={"20px"} display={teams + studentTeams > 3 ? "flex" : "none"}>
-				<Flex bgColor="whitesmoke" rounded={"md"} p={10} shadow={"sm"} direction={"column"} gap={"30px"}>
-					<Heading size={"md"} color={"transparent"}>COLUMNS</Heading>
-					<Flex direction={"column"} gap={"20px"} alignItems={"center"}>
+			<Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
+				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"}>
+				<Flex direction={"column"} gap={"30px"}>
+					<Heading size={{base: "xxs", md: "md"}} color={"transparent"}>COLUMNS</Heading>
+					<Flex whiteSpace={"nowrap"} direction={"column"} gap={"20px"}>
 						<Text>TEAMS</Text>
 						<Text>GROUPS</Text>
-						<Text>MIN. MATCH PER TEAM</Text>
+						<Text>MATCH / TEAM</Text>
 						<Text>GROUP STAGE MATCHES</Text>
 						<Text>TOTAL MATCHES</Text>
 						<Text>TOTAL TIME</Text>
@@ -80,27 +95,27 @@ const Home = () => {
 				</Flex>
 				<Method
 					name="KNOCKOUT"
-					teams={teams}
-					studentTeams={studentTeams}
-					fees={fee}
-					studentFees={studentFee}
-					groups={groups}
-					minGames={minGames}
-					ballCost={ballCost}
-					trophyCost={trophyCost}
-					misc={otherExpenses}
+					teams={formValues.teams}
+					studentTeams={formValues.studentTeams}
+					fees={formValues.fee}
+					studentFees={formValues.studentFee}
+					groups={formValues.groups}
+					minGames={formValues.minGames}
+					ballCost={formValues.ballCost}
+					trophyCost={formValues.trophyCost}
+					misc={formValues.otherExpenses}
 				/>
 				<Method
 					name="ROUND ROBIN"
-					teams={teams}
-					studentTeams={studentTeams}
-					fees={fee}
-					studentFees={studentFee}
-					groups={groups}
-					minGames={minGames}
-					ballCost={ballCost}
-					trophyCost={trophyCost}
-					misc={otherExpenses}
+					teams={formValues.teams}
+					studentTeams={formValues.studentTeams}
+					fees={formValues.fee}
+					studentFees={formValues.studentFee}
+					groups={formValues.groups}
+					minGames={formValues.minGames}
+					ballCost={formValues.ballCost}
+					trophyCost={formValues.trophyCost}
+					misc={formValues.otherExpenses}
 				/>
 			</Flex>
 		</Flex>	

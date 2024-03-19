@@ -20,9 +20,9 @@ const Method = (props: PropType) => {
 	const [totalGames, setTotalGames] = useState <number> (0);
 
     useEffect(() => {
-        if (name.toLowerCase() === "knockout") {
+        if (name && name.toLowerCase() === "knockout") {
             knockout();
-        } else if (name.toLowerCase() === "round robin") {
+        } else if (name && name.toLowerCase() === "round robin") {
             if (minGames !== 0) {
                 advancedRoundRobin();
             } else {
@@ -79,14 +79,14 @@ const Method = (props: PropType) => {
 	}
 
     return (
-        <Flex bgColor="whitesmoke" rounded={"md"} p={10} shadow={"sm"} direction={"column"}
-        gap={"30px"} color={minGames !== 0 && name.toLowerCase() === "knockout" ? "lightgray" : "black"}>
-            <Heading size={"md"}>{ minGames !== 0 && name.toLowerCase() === "round robin" ? "ALTERED RR" : name }</Heading>
+        <Flex direction={"column"}
+        gap={"30px"} color={name ? minGames !== 0 && name.toLowerCase() === "knockout" ? "lightgray" : "black" : "black"}>
+            <Heading whiteSpace={"nowrap"} textAlign={"center"} size={{base: "xxs", md: "md"}}>{ name ? minGames !== 0 && name.toLowerCase() === "round robin" ? "ALTERED RR" : name : "UNKNOWN" }</Heading>
             <Flex direction={"column"} gap={"20px"} alignItems={"center"}>
                 <Text>{ teams + studentTeams }</Text>
                 <Text>{ groups }</Text>
                 <Text>{ minMatches }</Text>
-                <Text>{ name.toLowerCase() === "knockout" ? 0 : totalGames - 3 }</Text>
+                <Text>{ name ? name.toLowerCase() === "knockout" ? 0 : totalGames - 3 : 0 }</Text>
                 <Text>{ totalGames }</Text>
                 <Text>{ totalGames * 1.5 || 0 } hrs</Text>
                 <Text>{ totalGames * 2 }</Text>
