@@ -5,6 +5,7 @@ import Method from "./games";
 import Cost from "./cost";
 import { FaFacebookF } from "react-icons/fa6";
 import Form from "./form";
+import Draws from "./draws";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ const initialForm = {
 
 const Home = () => {
 	const [formValues, setFormValues] = useState (initialForm);
+	const [page, setPage] = useState <string> ("estimate");
 
 	const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
         setFormValues((prev) => {
@@ -29,14 +31,29 @@ const Home = () => {
                 ...prev,
                 [event.target.name]: Number(event.target.value) >= 0 ? Number(event.target.value) : 0
             }
-        })
+        });
     }
 
 	return (
-		<Flex p={{ base: 8, lg: 12}} gap={"30px"} wrap={"wrap"} minHeight={"calc(100vh - 50px)"}
+		<Flex p={{ base: 8, lg: 12}} py={{ base: 20, lg: 32}} gap={"30px"} wrap={"wrap"} minHeight={"100vh"}
 			justifyContent={"center"} alignItems={"start"} fontSize={{ base: "10px", sm: "15px"}}>
-			<Form updateInput={updateInput} formValues={formValues}/>
-			<Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
+			
+			<Flex position={"absolute"} top={0} height={"50px"}>
+				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} borderBottom={"2px solid steelblue"}
+					onClick={() => setPage("estimate")} bgColor={page==="estimate" ? "steelblue" : "transparent"}
+					color={page==="estimate" ? "ghostwhite" : "steelblue"} width={"50vw"} justifyContent={"center"} alignItems={"center"}>
+						<Heading size={{base: "xs", lg: "md"}} fontFamily={"monospace"}>ESTIMATE</Heading>
+				</Flex>
+				<Flex cursor={"pointer"} _hover={{ textDecoration: "underline" }} borderBottom={"2px solid steelblue"}
+					onClick={() => setPage("draws")} bgColor={page==="draws" ? "steelblue" : "transparent"}
+					color={page==="draws" ? "ghostwhite" : "steelblue"} width={"50vw"} justifyContent={"center"} alignItems={"center"}>
+						<Heading size={{base: "xs", lg: "md"}} fontFamily={"monospace"}>DRAWS</Heading>
+				</Flex>
+			</Flex>
+
+			{page === "estimate" && <Form updateInput={updateInput} formValues={formValues}/>}
+
+			{page === "estimate" && <Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
 				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
 				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
 					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>GAMES</Heading>
@@ -79,8 +96,9 @@ const Home = () => {
 					trophyCost={formValues.trophyCost}
 					misc={formValues.otherExpenses}
 				/>
-			</Flex>
-			<Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
+			</Flex>}
+
+			{page === "estimate" && <Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
 				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
 				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
 					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>FINANCE</Heading>
@@ -121,8 +139,10 @@ const Home = () => {
 					trophyCost={formValues.trophyCost}
 					misc={formValues.otherExpenses}
 				/>
-			</Flex>
-			<Flex position={"absolute"} bottom={"-50px"} height={"50px"} width={"100vw"} bgColor={"steelblue"} 
+			</Flex>}
+			
+			{page === "draws" && <Draws />}
+			<Flex position={"absolute"} bottom={0} height={"50px"} width={"100vw"} bgColor={"steelblue"} 
 				justifyContent={"space-evenly"} alignItems={"center"} color={"ghostwhite"}>
 				<Heading cursor={"pointer"} size={{base: "xs", lg: "md"}} fontFamily={"monospace"} _hover={{ textDecoration: "underline" }}
 					onClick={() => window.open("https://www.facebook.com/BuffaloBulldozersCricketClub/", "_blank", 'noopener,noreferrer')}>
