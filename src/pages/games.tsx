@@ -81,7 +81,11 @@ const Method = (props: PropType) => {
     return (
         <Flex direction={"column"}
         gap={"30px"} color={name ? minGames !== 0 && name.toLowerCase() === "knockout" ? "lightgray" : "black" : "black"}>
-            <Heading whiteSpace={"nowrap"} textAlign={"center"} size={{base: "xxs", md: "sm"}}>{ name ? minGames !== 0 && name.toLowerCase() === "round robin" ? "ALTERED RR" : name : "UNKNOWN" }</Heading>
+            <Heading whiteSpace={"nowrap"} textAlign={"center"} size={{base: "xxs", md: "sm"}}>
+                { name ? minGames !== 0 && name.toLowerCase() === "round robin" ?
+                "CUSTOM"
+                : name : "UNKNOWN" }
+            </Heading>
             <Flex direction={"column"} gap={"20px"} alignItems={"center"}>
                 <Text>{ teams + studentTeams }</Text>
                 <Text>{ groups }</Text>

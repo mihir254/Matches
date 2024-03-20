@@ -5,9 +5,19 @@ import { IoIosClose } from "react-icons/io";
 const Draws = () => {
     const [teams, setTeams] = useState <string[]> ([]);
     const [team, setTeam] = useState <string> ('');
-    const [groups, setgroups] = useState <number> (1);
-    const [custom, setCustom] = useState <number> (0);
+    const [groups, setgroups] = useState <string> ('');
+    const [custom, setCustom] = useState <string> ('');
     const [lots, setLots] = useState <string[][]> ();
+
+	const updateGroup = (event: ChangeEvent<HTMLInputElement>) => {
+		const numericValue = event.target.value === "" ? "" : Number(event.target.value) < 0 ? "0" : event.target.value;
+        setgroups(numericValue);
+    }
+
+	const updateCustom = (event: ChangeEvent<HTMLInputElement>) => {
+		const numericValue = event.target.value === "" ? "" : Number(event.target.value) < 0 ? "0" : event.target.value;
+        setCustom(numericValue);
+    }
 
     const saveTeam = () => {
         setTeams((prev) => [ ...prev, team ]);
@@ -33,9 +43,9 @@ const Draws = () => {
     };
 
     const createRoundRobinMatches = () => {
-        const teamsPerGroup = Math.ceil(teams.length / groups);
+        const teamsPerGroup = Math.ceil(teams.length / Number(groups));
         let groupMatches = [];
-        for (let i = 0; i < groups; i++) {
+        for (let i = 0; i < Number(groups); i++) {
             const groupTeams = teams.slice(i * teamsPerGroup, (i + 1) * teamsPerGroup);
             const matches = generateRoundRobinMatches(groupTeams);
             groupMatches.push(matches);
@@ -44,12 +54,12 @@ const Draws = () => {
     };
 
     const createCustomRoundRobinMatches = () => {
-        const teamsPerGroup = Math.ceil(teams.length / groups);
-        if (teamsPerGroup % custom !== 0 || teamsPerGroup - custom < 1) {
+        const teamsPerGroup = Math.ceil(teams.length / Number(groups));
+        if (teamsPerGroup % Number(custom) !== 0 || teamsPerGroup - Number(custom) < 1) {
             return []
         }
         let groupMatches = [];
-        for (let i = 0; i < groups; i++) {
+        for (let i = 0; i < Number(groups); i++) {
             const groupTeams = teams.slice(i * teamsPerGroup, (i + 1) * teamsPerGroup);
             const matches = scheduleCustomRoundRobinMatches(groupTeams);
             groupMatches.push(matches);
@@ -67,7 +77,7 @@ const Draws = () => {
         let matches: string[] = [];
         groupTeams.forEach(team => {
             let temp: [number, string][] = [];
-            let remain = custom - store[team].size;
+            let remain = Number(custom) - store[team].size;
             let found = false;
             while (remain > 0) {
                 if (heap.length === 0) {
@@ -97,7 +107,7 @@ const Draws = () => {
             temp.forEach(item => {
                 let [xgames, xteam] = item;
                 if (xteam === team) {
-                    heap.push([custom, team]);
+                    heap.push([Number(custom), team]);
                 } else {
                     heap.push([xgames, xteam]);
                 }
@@ -127,14 +137,14 @@ const Draws = () => {
                 {teams.map((team, index) => (
                     <Button size={{ base: "sm", md: "md"}} key={index} onClick={() => setTeams(prev => prev.filter(t => t !== team))}>{team} <IoIosClose/></Button>
                 ))}
-                <Button size={{ base: "sm", md: "md"}} colorScheme='red' onClick={() => {setTeams([]); setgroups(1); setCustom(0); setLots([])}}>Clear</Button>
+                <Button size={{ base: "sm", md: "md"}} colorScheme='red' onClick={() => {setTeams([]); setgroups(''); setCustom(''); setLots([])}}>Clear</Button>
             </Flex>}
             <Heading size={{base: "sm", lg: "lg"}}>TOTAL TEAMS : { teams.length }</Heading>
             <Flex gap={"10px"} alignItems={"center"}>
                 <Text>Groups: </Text>
-                <Input variant="flushed" type='number' pl={3} width={"50px"} name="groups" value={groups} onChange={(event: ChangeEvent<HTMLInputElement>) => setgroups(Number(event.target.value))}/>
+                <Input variant="flushed" type='number' pl={3} width={"50px"} name="groups" value={groups} onChange={updateGroup}/>
                 <Text ml={2}>Custom RR Games: </Text>
-                <Input variant="flushed" type='number' pl={3} width={"50px"} name="custom" value={custom} onChange={(event: ChangeEvent<HTMLInputElement>) => setCustom(Number(event.target.value))}/>
+                <Input variant="flushed" type='number' pl={3} width={"50px"} name="custom" value={custom} onChange={updateCustom}/>
             </Flex>
             <Flex gap={"20px"} wrap={"wrap"} justifyContent={"center"}>
                 <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createKnockoutMatches())}>Create Knockout Matches</Button>

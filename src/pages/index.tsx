@@ -1,4 +1,4 @@
-import { Button, Box, Flex, Heading, Icon, Input, Text } from "@chakra-ui/react";
+import { Button, Box, Flex, Heading, Icon, Input, Text, Modal, ModalCloseButton, ModalContent, ModalOverlay, Tooltip } from "@chakra-ui/react";
 import { Inter } from "next/font/google";
 import { ChangeEvent, useState } from "react";
 import Method from "./games";
@@ -6,30 +6,35 @@ import Cost from "./cost";
 import { FaFacebookF } from "react-icons/fa6";
 import Form from "./form";
 import Draws from "./draws";
+import { SlQuestion } from "react-icons/sl";
+import { info } from "console";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const initialForm = {
-	fee: 0,
-	studentFee: 0,
-	teams: 0,
-	studentTeams: 0,
-	groups: 0,
-	minGames: 0,
-	ballCost: 0,
-	trophyCost: 0,
-	otherExpenses: 0,
+	fee: '',
+	studentFee: '',
+	teams: '',
+	studentTeams: '',
+	groups: '',
+	minGames: '',
+	ballCost: '',
+	trophyCost: '',
+	otherExpenses: '',
 }
 
 const Home = () => {
 	const [formValues, setFormValues] = useState (initialForm);
 	const [page, setPage] = useState <string> ("estimate");
+	const [info, setInfo] = useState <string> ('');
 
 	const updateInput = (event: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
+		const numericValue = value === "" ? "" : Number(value) < 0 ? 0 : Number(value);
         setFormValues((prev) => {
             return {
                 ...prev,
-                [event.target.name]: Number(event.target.value) >= 0 ? Number(event.target.value) : 0
+                [name]: numericValue,
             }
         });
     }
@@ -54,11 +59,25 @@ const Home = () => {
 			{page === "estimate" && <Form updateInput={updateInput} formValues={formValues}/>}
 
 			{page === "estimate" && <Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
-				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
+				gap={"20px"} display={Number(formValues.teams) + Number(formValues.studentTeams) > 3 ? "flex" : "none"} position={"relative"}>
 				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
 					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>GAMES</Heading>
 					<Box mt={{base: 2, md: 5}} mx={2} flex="1" height="2px" bgColor="steelblue" />
 				</Flex>
+
+				<Modal blockScrollOnMount={false} isOpen={info !== ''} onClose={() => setInfo('')} isCentered>
+					<ModalOverlay
+						bg='blackAlpha.500'
+					/>
+					<ModalContent m={10} bgColor={"whitesmoke"}>
+						<Flex direction={"column"} p={5} justifyContent={"center"} alignItems={"center"}>
+							<Heading mb={2} size={{ base: "sm", md: "lg" }}>{info.split(" : ")[0]}</Heading>
+							<Text textAlign={"center"}>{info.split(" : ")[1]}</Text>
+						</Flex>
+						<ModalCloseButton />
+					</ModalContent>
+				</Modal>
+
 				<Flex direction={"column"} gap={"30px"}>
 					<Heading size={{base: "xxs", md: "sm"}} color={"transparent"}>COLUMNS</Heading>
 					<Flex whiteSpace={"nowrap"} direction={"column"} gap={"20px"}>
@@ -67,39 +86,44 @@ const Home = () => {
 						<Text>Match / Team</Text>
 						<Text>Group Stage</Text>
 						<Text>Total Matches</Text>
-						<Text>Total Time</Text>
+						<Flex direction={"row"} alignItems={"center"}>
+							<Text mr={2}>Total Time</Text>
+							<Tooltip hasArrow label="Time required to conduct all games on 1 ground">
+								<span><SlQuestion color="darkgreen" cursor={"pointer"} onClick={() => setInfo("Total Time : Time required to conduct all games on 1 ground. Divide it by number of grounds to calculate time for concurrent games.")}/></span>
+							</Tooltip>
+						</Flex>
 						<Text>Balls Required</Text>
 						<Text>Extra Balls</Text>
 					</Flex>
 				</Flex>
 				<Method
 					name="KNOCKOUT"
-					teams={formValues.teams}
-					studentTeams={formValues.studentTeams}
-					fees={formValues.fee}
-					studentFees={formValues.studentFee}
-					groups={formValues.groups}
-					minGames={formValues.minGames}
-					ballCost={formValues.ballCost}
-					trophyCost={formValues.trophyCost}
-					misc={formValues.otherExpenses}
+					teams={Number(formValues.teams)}
+					studentTeams={Number(formValues.studentTeams)}
+					fees={Number(formValues.fee)}
+					studentFees={Number(formValues.studentFee)}
+					groups={Number(formValues.groups)}
+					minGames={Number(formValues.minGames)}
+					ballCost={Number(formValues.ballCost)}
+					trophyCost={Number(formValues.trophyCost)}
+					misc={Number(formValues.otherExpenses)}
 				/>
 				<Method
 					name="ROUND ROBIN"
-					teams={formValues.teams}
-					studentTeams={formValues.studentTeams}
-					fees={formValues.fee}
-					studentFees={formValues.studentFee}
-					groups={formValues.groups}
-					minGames={formValues.minGames}
-					ballCost={formValues.ballCost}
-					trophyCost={formValues.trophyCost}
-					misc={formValues.otherExpenses}
+					teams={Number(formValues.teams)}
+					studentTeams={Number(formValues.studentTeams)}
+					fees={Number(formValues.fee)}
+					studentFees={Number(formValues.studentFee)}
+					groups={Number(formValues.groups)}
+					minGames={Number(formValues.minGames)}
+					ballCost={Number(formValues.ballCost)}
+					trophyCost={Number(formValues.trophyCost)}
+					misc={Number(formValues.otherExpenses)}
 				/>
 			</Flex>}
 
 			{page === "estimate" && <Flex bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"} justifyContent={"space-evenly"}
-				gap={"20px"} display={formValues.teams + formValues.studentTeams > 3 ? "flex" : "none"} position={"relative"}>
+				gap={"20px"} display={Number(formValues.teams) + Number(formValues.studentTeams) > 3 ? "flex" : "none"} position={"relative"}>
 				<Flex position={"absolute"} top={{base: -2, md: -5}} left={5} right={0} height="2px" bgColor="transparent">
 					<Heading size={{ base: "sm", md: "lg" }} color={"steelblue"}>FINANCE</Heading>
 					<Box mt={{base: 2, md: 5}} mx={2} flex="1" height="2px" bgColor="steelblue" />
@@ -107,7 +131,7 @@ const Home = () => {
 				<Flex direction={"column"} gap={"30px"}>
 					<Heading size={{base: "xxs", md: "sm"}} color={"transparent"}>COLUMNS</Heading>
 					<Flex whiteSpace={"nowrap"} direction={"column"} gap={"20px"}>
-						<Text>Spent On Balls</Text>
+						<Text>Balls</Text>
 						<Text>Trophies</Text>
 						<Text>Other Expenses</Text>
 						<Text>Total Spent</Text>
@@ -117,27 +141,27 @@ const Home = () => {
 				</Flex>
 				<Cost
 					name="KNOCKOUT"
-					teams={formValues.teams}
-					studentTeams={formValues.studentTeams}
-					fees={formValues.fee}
-					studentFees={formValues.studentFee}
-					groups={formValues.groups}
-					minGames={formValues.minGames}
-					ballCost={formValues.ballCost}
-					trophyCost={formValues.trophyCost}
-					misc={formValues.otherExpenses}
+					teams={Number(formValues.teams)}
+					studentTeams={Number(formValues.studentTeams)}
+					fees={Number(formValues.fee)}
+					studentFees={Number(formValues.studentFee)}
+					groups={Number(formValues.groups)}
+					minGames={Number(formValues.minGames)}
+					ballCost={Number(formValues.ballCost)}
+					trophyCost={Number(formValues.trophyCost)}
+					misc={Number(formValues.otherExpenses)}
 				/>
 				<Cost
 					name="ROUND ROBIN"
-					teams={formValues.teams}
-					studentTeams={formValues.studentTeams}
-					fees={formValues.fee}
-					studentFees={formValues.studentFee}
-					groups={formValues.groups}
-					minGames={formValues.minGames}
-					ballCost={formValues.ballCost}
-					trophyCost={formValues.trophyCost}
-					misc={formValues.otherExpenses}
+					teams={Number(formValues.teams)}
+					studentTeams={Number(formValues.studentTeams)}
+					fees={Number(formValues.fee)}
+					studentFees={Number(formValues.studentFee)}
+					groups={Number(formValues.groups)}
+					minGames={Number(formValues.minGames)}
+					ballCost={Number(formValues.ballCost)}
+					trophyCost={Number(formValues.trophyCost)}
+					misc={Number(formValues.otherExpenses)}
 				/>
 			</Flex>}
 			
