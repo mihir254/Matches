@@ -172,6 +172,7 @@ const Home = () => {
 					onClick={() => window.open("https://www.facebook.com/BuffaloBulldozersCricketClub/", "_blank", 'noopener,noreferrer')}>
 						@2024 BUFFALO BULLDOZERS
 				</Heading>
+				<Text color={"whitesmoke"} position={"absolute"} right={10}>v1.0.2</Text>
 				{/* <Text>Developed by Mihir Bhansali</Text> */}
 				{/* <FaFacebookF size={20} cursor={"pointer"}/> */}
 			</Flex>

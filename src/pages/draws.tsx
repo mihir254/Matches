@@ -8,6 +8,7 @@ const Draws = () => {
     const [groups, setgroups] = useState <string> ('');
     const [custom, setCustom] = useState <string> ('');
     const [lots, setLots] = useState <string[][]> ();
+    const [selected, setSelected] = useState <number> (0);
 
 	const updateGroup = (event: ChangeEvent<HTMLInputElement>) => {
 		const numericValue = event.target.value === "" ? "" : Number(event.target.value) < 0 ? "0" : event.target.value;
@@ -25,6 +26,7 @@ const Draws = () => {
     }
 
     const createKnockoutMatches = () => {
+        setSelected(1);
         let matches = [];
         for (let i = 0; i < teams.length; i += 2) {
             matches.push(`${teams[i]} vs ${teams[i+1]}`);
@@ -43,6 +45,7 @@ const Draws = () => {
     };
 
     const createRoundRobinMatches = () => {
+        setSelected(2);
         const teamsPerGroup = Math.ceil(teams.length / Number(groups));
         let groupMatches = [];
         for (let i = 0; i < Number(groups); i++) {
@@ -54,8 +57,9 @@ const Draws = () => {
     };
 
     const createCustomRoundRobinMatches = () => {
+        setSelected(3);
         const teamsPerGroup = Math.ceil(teams.length / Number(groups));
-        if (teamsPerGroup - Number(custom) < 1) {
+        if (Number(custom) < 1 || teamsPerGroup - Number(custom) < 1) {
             return []
         }
         let groupMatches = [];
@@ -137,7 +141,7 @@ const Draws = () => {
                 {teams.map((team, index) => (
                     <Button size={{ base: "sm", md: "md"}} key={index} onClick={() => setTeams(prev => prev.filter(t => t !== team))}>{team} <IoIosClose/></Button>
                 ))}
-                <Button size={{ base: "sm", md: "md"}} colorScheme='red' onClick={() => {setTeams([]); setgroups(''); setCustom(''); setLots([])}}>Clear</Button>
+                <Button size={{ base: "sm", md: "md"}} colorScheme='red' onClick={() => {setTeams([]); setgroups(''); setCustom(''); setLots([]); setSelected(0)}}>Clear</Button>
             </Flex>}
             <Heading size={{base: "sm", lg: "lg"}}>TOTAL TEAMS : { teams.length }</Heading>
             <Flex gap={"10px"} alignItems={"center"}>
@@ -147,12 +151,15 @@ const Draws = () => {
                 <Input variant="flushed" type='number' pl={3} width={"50px"} name="custom" value={custom} onChange={updateCustom}/>
             </Flex>
             <Flex gap={"20px"} wrap={"wrap"} justifyContent={"center"}>
-                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createKnockoutMatches())}>Create Knockout Matches</Button>
-                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createRoundRobinMatches())}>Create Round Robin Matches</Button>
-                <Button size={{ base: "sm", md: "md"}} isDisabled={teams.length === 0} onClick={() => setLots(createCustomRoundRobinMatches())}>Create Custom Round Robin Matches</Button>
+                <Button bgColor={selected === 1 ? "steelblue" : ""} size={{ base: "sm", md: "md"}} _hover={{bgColor: "steelblue"}}
+                    color={selected === 1 ? "white" : ""} isDisabled={teams.length === 0} onClick={() => setLots(createKnockoutMatches())}>Create Knockout Matches</Button>
+                <Button bgColor={selected === 2 ? "steelblue" : ""} size={{ base: "sm", md: "md"}} _hover={{bgColor: "steelblue"}}
+                    color={selected === 2 ? "white" : ""} isDisabled={teams.length === 0} onClick={() => setLots(createRoundRobinMatches())}>Create Round Robin Matches</Button>
+                <Button bgColor={selected === 3 ? "steelblue" : ""} size={{ base: "sm", md: "md"}} _hover={{bgColor: "steelblue"}}
+                    color={selected === 3 ? "white" : ""} isDisabled={teams.length === 0} onClick={() => setLots(createCustomRoundRobinMatches())}>Create Custom Round Robin Matches</Button>
             </Flex>
             {teams.length > 0 && lots && lots.length > 0 && <Flex gap={"7px"} bgColor="whitesmoke" rounded={"md"} p={{base: 5, lg: 10}} shadow={"sm"}
-                maxWidth={{base:"90%", md: "50%"}} wrap={"wrap"}>
+                maxWidth={{base:"90%", md: "60%"}} wrap={"wrap"}>
                 {lots.map((lot, ind) => (
                     <Flex gap={"7px"} key={ind} wrap={"wrap"} alignItems={"center"} justifyContent={"center"}>
                         {lots.length > 1 && <Text fontWeight={"bold"} mr={3}>Group {ind + 1}</Text>}
