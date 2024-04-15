@@ -55,7 +55,7 @@ const Draws = () => {
 
     const createCustomRoundRobinMatches = () => {
         const teamsPerGroup = Math.ceil(teams.length / Number(groups));
-        if (teamsPerGroup % Number(custom) !== 0 || teamsPerGroup - Number(custom) < 1) {
+        if (teamsPerGroup - Number(custom) < 1) {
             return []
         }
         let groupMatches = [];
